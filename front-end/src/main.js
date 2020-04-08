@@ -6,11 +6,12 @@ import router from "./router";
 Vue.config.productionTip = false;
 
 let data = {
-  pokemon: []
+  pokemon: [],
+  user: null,
 };
 
 new Vue({
   router,
   data,
-  render: h => h(App)
+  render: (h) => h(App),
 }).$mount("#app");

@@ -1,5 +1,5 @@
 <template>
-  <div id="app" class="d-flex flex-column h-100">
+  <div id="app" class="d-flex flex-column h-100" v-if="user">
     <!-- Top Navbar -->
     <header>
       <b-navbar
@@ -37,11 +37,12 @@
         </b-navbar-brand>
         <b-navbar-toggle target="sidebar"> </b-navbar-toggle>
         <ul class="ml-auto mr-md-4 navbar-nav px-3 flex-row">
-          <li class="nav-item dropdown profile">
-            <a class="nav-link disabled" href="#">
-              <img
-                src="https://avatars1.githubusercontent.com/u/1888257?s=460&v=4"
-              />
+          <span class="navbar-text text-white">
+            Logged in as: {{ user.firstName }} {{ user.lastName }}
+          </span>
+          <li class="nav-item">
+            <a href="#" @click="logout" class="nav-link">
+              Logout
             </a>
           </li>
         </ul>
@@ -145,7 +146,40 @@
       </div>
     </footer>
   </div>
+  <div v-else>
+    <router-view />
+  </div>
 </template>
+
+<script>
+import axios from "axios";
+export default {
+  name: "App",
+  async created() {
+    try {
+      let response = await axios.get("/api/users");
+      this.$root.$data.user = response.data.user;
+    } catch (error) {
+      this.$root.$data.user = null;
+    }
+  },
+  computed: {
+    user() {
+      return this.$root.$data.user;
+    },
+  },
+  methods: {
+    async logout() {
+      try {
+        await axios.delete("/api/users");
+        this.$root.$data.user = null;
+      } catch (error) {
+        this.$root.$data.user = null;
+      }
+    },
+  },
+};
+</script>
 
 <style>
 .navbar-brand {
