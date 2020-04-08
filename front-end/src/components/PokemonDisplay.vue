@@ -171,6 +171,10 @@ export default {
 
         let pokemon = this.$root.$data.pokedex;
         var filteredPokemon = pokemon.filter((i) => i._id !== this.pokemon._id);
+        // Reorder the pokemon order
+        for (let i = 0; i < filteredPokemon.length; i++) {
+          filteredPokemon[i].order = i;
+        }
         this.$root.$data.pokedex = filteredPokemon;
       } catch (error) {
         console.error(error);

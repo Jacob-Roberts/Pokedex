@@ -148,7 +148,7 @@ router.delete("/:id", validUser, async (req, res) => {
 
     // Reorder the pokemon order
     let currentOrderNumber = 0;
-    for (let pokemon of pokemonList.sort((a, b) => a.order < b.order)) {
+    for (let pokemon of pokemonList.sort((a, b) => a.order - b.order)) {
       pokemon.order = currentOrderNumber;
       currentOrderNumber++;
       pokemon.save();
