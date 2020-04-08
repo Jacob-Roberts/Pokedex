@@ -140,7 +140,7 @@
       <div class="container">
         <a
           class="offset-lg-2 col-lg-10 text-light"
-          href="https://github.com/Jacob-Roberts/school-repository/tree/master/pokedex"
+          href="https://github.com/Jacob-Roberts/Pokedex"
           >Link to Github Repo</a
         >
       </div>
