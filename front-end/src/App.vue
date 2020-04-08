@@ -157,6 +157,7 @@ export default {
   name: "App",
   async created() {
     try {
+      // Load User
       let response = await axios.get("/api/users");
       this.$root.$data.user = response.data.user;
     } catch (error) {
@@ -173,6 +174,7 @@ export default {
       try {
         await axios.delete("/api/users");
         this.$root.$data.user = null;
+        this.$root.$data.pokedex = [];
       } catch (error) {
         this.$root.$data.user = null;
       }

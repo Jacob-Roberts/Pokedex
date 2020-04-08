@@ -1,7 +1,7 @@
 <template>
   <div class="wrapper">
     <div class="pokemon-list">
-      <div class="pokemon" v-for="pokemon in pokemon" :key="pokemon.id">
+      <div class="pokemon" v-for="pokemon in pokedex" :key="pokemon._id">
         <PokemonDisplay :pokemon="pokemon" />
       </div>
     </div>
@@ -9,15 +9,30 @@
 </template>
 
 <script>
+import axios from "axios";
 import PokemonDisplay from "./PokemonDisplay";
 export default {
   name: "PokemonList",
   components: {
-    PokemonDisplay
+    PokemonDisplay,
   },
-  props: {
-    pokemon: Array
-  }
+  async created() {
+    try {
+      // Load Pokedex
+      let response = await axios.get("/api/pokemon");
+      let pokedex = response.data.pokemon;
+      this.$root.$data.pokedex = pokedex;
+    } catch (error) {
+      console.error(error);
+    }
+  },
+  computed: {
+    pokedex() {
+      let newPokedex = this.$root.$data.pokedex;
+      newPokedex.sort((a, b) => a.order < b.order);
+      return newPokedex;
+    },
+  },
 };
 </script>
 

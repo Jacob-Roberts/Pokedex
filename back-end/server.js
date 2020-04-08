@@ -37,5 +37,9 @@ app.use(
 const users = require("./users.js");
 app.use("/api/users", users.routes);
 
+// import the users module and setup its API path
+const pokemon = require("./pokemon.js");
+app.use("/api/pokemon", pokemon.routes);
+
 // listen on port 3000
 app.listen(3000, () => console.log("Server listening on port 3000!"));

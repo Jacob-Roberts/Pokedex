@@ -21,13 +21,14 @@
       </form>
       <span class="text-danger">{{ errorMessage }}</span>
 
-      <PokemonList :pokemon="pokemon" />
+      <PokemonList />
     </div>
     <Login v-else />
   </div>
 </template>
 
 <script>
+import axios from "axios";
 import PokemonList from "../components/PokemonList.vue";
 import Login from "@/components/Login.vue";
 import { baseUrl } from "../Constants";
@@ -41,9 +42,6 @@ export default {
     return { search: "", loading: false, errorMessage: "" };
   },
   computed: {
-    pokemon() {
-      return this.$root.$data.pokemon;
-    },
     user() {
       return this.$root.$data.user;
     },
@@ -65,12 +63,22 @@ export default {
 
       let pokemon = await data.json();
 
-      if (this.$root.$data.pokemon.some((i) => i.id === pokemon.id)) {
-        this.errorMessage = "You already caught that pokemon";
-        return;
-      }
+      let nextOrder = this.$root.$data.pokedex.length;
+
+      // Add the pokemon to the backend
+      let response = await axios.post("/api/pokemon", {
+        name: pokemon.name,
+        order: nextOrder,
+        nickname: "",
+        types: pokemon.types.map((i) => ({
+          slot: i.slot,
+          name: i.type.name,
+        })),
+        image: pokemon.sprites.front_default,
+      });
 
       this.$root.$data.pokemon.push(pokemon);
+      this.$root.$data.pokedex.push(response.data.pokemon);
     },
   },
 };

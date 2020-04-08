@@ -7,6 +7,7 @@ Vue.config.productionTip = false;
 
 let data = {
   pokemon: [],
+  pokedex: [],
   user: null,
 };
 
